@@ -1,7 +1,7 @@
 BCS Finder
 ==========
 
-BCS Finder Application for Windows/Mac/Linux
+BCS Finder Application for Windows/Mac/Linux.  Only works with BCS firmware version 4.0 alpha preview 3 and later.
 
 ## Requirements
   * [Qt 5][qt5] - tested with 5.3.0
