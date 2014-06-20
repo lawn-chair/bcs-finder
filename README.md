@@ -21,6 +21,12 @@ BCS Finder Application for Windows/Mac/Linux.  Only works with BCS firmware vers
     
     python finder.py
 
+### Windows
+  Build executable by running:
+  
+    python setup.py build
+    
+  If you run into an error on Windows trying to load load_plugin.py, see: http://stackoverflow.com/questions/20590113/syntaxerror-when-using-cx-freeze-on-pyqt-app
 
 [qt5]: http://qt-project.org/downloads "Qt Project"
 [pyqt5]: http://www.riverbankcomputing.co.uk/software/pyqt/download5 "PyQt5"
