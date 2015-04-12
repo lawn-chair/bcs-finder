@@ -37,7 +37,7 @@ class BCSFinder(QObject):
         while True:
             data, addr = self.sock.recvfrom(1024)
             try:
-                bcs_info = unpack("BBBBB4B6B4c31s31s2cc", data)
+                bcs_info = unpack("!BBBBB4B6B4c31s31xHc", data)
                 self.found.emit({
                     "address": addr[0],
                     "name": bcs_info[19].decode(encoding='UTF-8').strip(),
@@ -46,7 +46,8 @@ class BCSFinder(QObject):
                         bcs_info[17].decode(encoding='UTF-8'), 
                         bcs_info[18].decode(encoding='UTF-8')),
                     "mac": "{:02x}:{:02x}:{:02x}:{:02x}:{:02x}:{:02x}".format(bcs_info[9], bcs_info[10], 
-                        bcs_info[11], bcs_info[12], bcs_info[13], bcs_info[14])
+                        bcs_info[11], bcs_info[12], bcs_info[13], bcs_info[14]),
+                    "port": bcs_info[20]
                 })
             except error:
                 pass
@@ -95,7 +96,10 @@ class FinderUi(QWidget):
         # Found a BCS, add a row to the table
         row = self.finderTable.rowCount()
         self.finderTable.insertRow(row)
-        self.finderTable.setItem(row, 0, QTableWidgetItem(bcs['address']))
+        if bcs['port'] != 0 and bcs['port'] != 80:
+            self.finderTable.setItem(row, 0, QTableWidgetItem(bcs['address'] + ":" + str(bcs['port'])))
+        else:
+            self.finderTable.setItem(row, 0, QTableWidgetItem(bcs['address']))
         self.finderTable.setItem(row, 1, QTableWidgetItem(bcs['name']))
         self.finderTable.setItem(row, 2, QTableWidgetItem(bcs['mac']))
         self.finderTable.setItem(row, 3, QTableWidgetItem(bcs['version']))
